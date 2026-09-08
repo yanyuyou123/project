@@ -46,4 +46,17 @@
         set name=#{name},student_no=#{studentNo},gender=#{gender},education=#{education},class_id=#{classId},update_time=#{updateTime},phone=#{phone}
         where id=#{id}
     </update>
+    <!-- 统计学生学历 -->
+    <select id="getStudentsEducation" resultType="java.util.Map">
+        select
+            case education
+                when '1' then '初中'
+                when '2' then '高中'
+                when '3' then '大专'
+                when '4' then '本科'
+                when '5' then '硕士'
+                else '其他'
+            end as education,
+            count(*) as num from student group by education
+    </select>
 </mapper>

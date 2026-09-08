@@ -13,4 +13,6 @@ public interface ReportService {
 
 
     List<Map<String, Object>> getEmpGenderData();
+
+    List<Map<String, Object>> getStudentsEducation();
 }

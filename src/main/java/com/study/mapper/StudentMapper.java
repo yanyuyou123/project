@@ -4,6 +4,7 @@ import com.study.pojo.Student;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface StudentMapper {
@@ -41,4 +42,8 @@ public interface StudentMapper {
     @Update("update student set update_time=#{updateTime},violation_count=#{violationCount},violation_score=#{violationScore}" +
             " where id=#{id}")
     void updateViolation(Student student);
+    /*
+    统计学员学历
+     */
+    List<Map<String, Object>> getStudentsEducation();
 }

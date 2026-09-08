@@ -1,6 +1,7 @@
 package com.study.service.impl;
 
 import com.study.mapper.EmpMapper;
+import com.study.mapper.StudentMapper;
 import com.study.pojo.JobOption;
 import com.study.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +9,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class ReportServiceimpl implements ReportService {
     @Autowired
     private EmpMapper empMapper;
+    @Autowired
+    private StudentMapper studentMapper;
     @Override
     public JobOption getEmpJobData() {
        //1.调用Mapper接口，获取统计数据
@@ -27,5 +29,10 @@ public class ReportServiceimpl implements ReportService {
     @Override
     public List<Map<String, Object>> getEmpGenderData() {
         return empMapper.countEmpGenderData();
+    }
+
+    @Override
+    public List<Map<String, Object>> getStudentsEducation() {
+        return studentMapper.getStudentsEducation();
     }
 }

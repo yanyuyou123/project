@@ -26,5 +26,13 @@ public class ReportController {
         log.info("统计员工性别");
         return Result.success(reportService.getEmpGenderData());
     }
+    /*
+    学员学历统计
+     */
+    @GetMapping("/studentsEducation")
+    public Result getStudentsEducation(){
+        log.info("统计学员学历");
+        return Result.success(reportService.getStudentsEducation());
+    }
 }
 
