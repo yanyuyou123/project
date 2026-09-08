@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mapper.ClassesMapper">
+    <!-- 查询班级总数 -->
+    <select id="count" resultType="java.lang.Long">
+        select count(*) from classes
+        <where>
+            <if test="className != null">
+                and class_name like concat('%',#{className},'%')
+            </if>
+            <if test="status != null">
+                and status=#{status}
+            </if>
+        </where>
+    </select>
+    <!-- 分页查询班级列表 -->
+    <select id="list" resultType="com.study.pojo.Classes">
+        select * from classes
+        <where>
+            <if test="className != null">
+                and class_name like concat('%',#{className},'%')
+            </if>
+            <if test="status != null">
+                and status=#{status}
+            </if>
+        </where>
+        limit #{start},#{pageSize}
+    </select>
+    <!-- 更新班级记录 -->
+    <update id="updateClasses" parameterType="com.study.pojo.Classes">
+        update classes
+        set class_name=#{className},status=#{status},main_teacher=#{mainTeacher},class_number=#{classNumber},start_date=#{startDate},end_date=#{endDate},update_time=#{updateTime}
+        <if test="classRoom != null">
+            ,class_room=#{classRoom}
+        </if>
+        where id=#{id}
+    </update>
+</mapper>
