@@ -16,11 +16,18 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler
     public Result handleDuplicateKeyException(DuplicateKeyException e) {
-        log.error("程序出现错误:",e);
-        String message=e.getMessage();
-        int i=message.indexOf("Duplicate Key");
-        String errmsg=message.substring(i);
-        String[] arr=errmsg.split(" ");
-        return Result.error(arr[2]+"已存在");
+        log.error("程序出现错误:", e);
+        String message = e.getMessage();
+        try {
+            if (message != null && message.contains("Duplicate entry")) {
+                String[] arr = message.split("'");
+                if (arr.length >= 2) {
+                    return Result.error(arr[1] + "已存在");
+                }
+            }
+        } catch (Exception ex) {
+            log.error("解析重复键异常消息失败:", ex);
+        }
+        return Result.error("数据重复,请检查后重试");
     }
 }
