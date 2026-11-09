@@ -19,6 +19,6 @@ public class Student {
     private Integer classId;
     private Integer violationCount;
     private Integer violationScore;
-    private LocalDateTime CreateTime;
-    private LocalDateTime UpdateTime;
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
 }

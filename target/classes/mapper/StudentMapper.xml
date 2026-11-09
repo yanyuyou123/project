@@ -8,7 +8,7 @@
         select count(*) from student
            <where>
                 <if test="name != null and name!=''">
-                    and name= #{name}
+                    and name like concat('%',#{name},'%')
                 </if>
                 <if test="studentNo != null and studentNo !=''">
                     and student_no= #{studentNo}
@@ -26,7 +26,7 @@
         select * from student
            <where>
                 <if test="name != null and name!=''">
-                    and name= #{name}
+                    and name like concat('%',#{name},'%')
                 </if>
                 <if test="studentNo != null and studentNo !=''">
                     and student_no= #{studentNo}

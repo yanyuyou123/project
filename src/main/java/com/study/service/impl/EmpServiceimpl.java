@@ -23,8 +23,8 @@ public class EmpServiceimpl implements EmpService {
     private EmpExprMapper empExprMapper;
     @Override
     public PageResult<Emp> page(Integer page, Integer pageSize, String name, Integer gender, LocalDate begin, LocalDate end) {
-        //1.  调用Mapper接口查询数据
-        Long total=empMapper.count();
+        //1.  调用Mapper接口查询数据（总数也带筛选条件，否则分页 total 不准）
+        Long total=empMapper.countEmp(name, gender, begin, end);
         //2. 调用接口查询结果列表
         Integer start=(page-1)*pageSize;
         List<Emp>rows=empMapper.list(start,pageSize,name,gender,begin,end);

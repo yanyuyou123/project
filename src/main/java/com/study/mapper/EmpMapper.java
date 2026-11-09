@@ -21,6 +21,10 @@ public interface EmpMapper {
     @Select("select count(*) from emp  e left join dept d on e.dept_id=d.id ")
     public Long count();
     /*
+    条件统计总数（与 list 相同的筛选条件，保证分页 total 准确）
+     */
+    Long countEmp(String name, Integer gender, LocalDate begin, LocalDate end);
+    /*
     分页查询
      */
 //    @Select(" select e.*,d.name deptName from emp e left join dept d on e.dept_id=d.id\n" +
@@ -56,5 +60,11 @@ public interface EmpMapper {
     统计员工性别人数
      */
     List<Map<String, Object>> countEmpGenderData();
+
+    /*
+    根据用户名密码查询员工（登录用）
+     */
+    @Select("select * from emp where username=#{username} and password=#{password}")
+    Emp login(String username, String password);
 }
 

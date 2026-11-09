@@ -21,6 +21,22 @@
         order by e.update_time desc
         limit #{start},#{pageSize}
     </select>
+    <!-- 条件统计总数：与 list 相同的筛选条件 -->
+    <select id="countEmp" resultType="java.lang.Long">
+        select count(*) from emp e
+        left join dept d on e.dept_id=d.id
+        <where>
+            <if test="name != null and name != ''">
+                e.name like concat('%',#{name},'%')
+            </if>
+            <if test="gender != null">
+                and e.gender = #{gender}
+            </if>
+            <if test="begin != null and end != null">
+                and e.entry_date between #{begin} and #{end}
+            </if>
+        </where>
+    </select>
     <delete id="deleteByIds">
         delete from emp where id in
         <foreach collection="ids" item="id" separator="," open="(" close=")">
@@ -40,6 +56,7 @@
         <result column="imag" property="imag" />
         <result column="entry_date" property="entryDate" />
         <result column="dept_id" property="deptId" />
+        <result column="deptName" property="deptName" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <!-- 封装工作经历信息-->
@@ -55,13 +72,17 @@
         <!-- 根据id查询员工信息-->
        <select id="getById" resultMap="empResultMap">
         select e.*,
+               d.name deptName,
                ee.id ee_id,
                ee.begin ee_begin,
                ee.end ee_end,
                ee.company ee_company,
                ee.job ee_job,
                ee.emp_id ee_empid
-        from emp e left join emp_expr ee on e.id=ee.emp_id where e.id=#{id}
+        from emp e
+        left join dept d on e.dept_id = d.id
+        left join emp_expr ee on e.id = ee.emp_id
+        where e.id = #{id}
     </select>
     <!-- 根据id更新员工基本信息-->
     <update id="updateById">

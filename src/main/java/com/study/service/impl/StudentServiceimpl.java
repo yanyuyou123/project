@@ -55,8 +55,8 @@ public class StudentServiceimpl implements StudentService {
     public void updateViolation(Integer id,Integer violation) {
         //获取学生信息
         Student student = studentMapper.getById(id);
-        //检查学生是否存在
-        if(student != null){
+        //检查学生是否存在（原代码判断写反，已修复为 == null）
+        if(student == null){
             throw new RuntimeException("学生不存在:id="+id);
         }
         //根据id更改学生的违纪信息
