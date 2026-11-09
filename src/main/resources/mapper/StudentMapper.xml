@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mapper.StudentMapper">
+
+    <select id="Count" resultType="java.lang.Long">
+        select count(*) from student
+           <where>
+                <if test="name != null and name!=''">
+                    and name like concat('%',#{name},'%')
+                </if>
+                <if test="studentNo != null and studentNo !=''">
+                    and student_no= #{studentNo}
+                </if>
+                <if test="education != null">
+                    and education=#{education}
+                </if>
+                <if test="classId != null">
+                    and class_id=#{classId}
+                </if>
+           </where>
+    </select>
+    <!-- 分页查询学生列表 -->
+    <select id="PageStudent" resultType="com.study.pojo.Student">
+        select * from student
+           <where>
+                <if test="name != null and name!=''">
+                    and name like concat('%',#{name},'%')
+                </if>
+                <if test="studentNo != null and studentNo !=''">
+                    and student_no= #{studentNo}
+                </if>
+                <if test="education != null">
+                    and education=#{education}
+                </if>
+                <if test="classId != null">
+                    and class_id=#{classId}
+                </if>
+           </where>
+        limit #{start},#{pageSize}
+    </select>
+    <!-- 更新学生记录 -->
+    <update id="updateStudent" parameterType="com.study.pojo.Student">
+        update student
+        set name=#{name},student_no=#{studentNo},gender=#{gender},education=#{education},class_id=#{classId},update_time=#{updateTime},phone=#{phone}
+        where id=#{id}
+    </update>
+    <!-- 统计学生学历 -->
+    <select id="getStudentsEducation" resultType="java.util.Map">
+        select
+            case education
+                when '1' then '初中'
+                when '2' then '高中'
+                when '3' then '大专'
+                when '4' then '本科'
+                when '5' then '硕士'
+                else '其他'
+            end as education,
+            count(*) as num from student group by education
+    </select>
+</mapper>
